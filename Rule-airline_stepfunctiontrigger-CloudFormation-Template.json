@@ -1,0 +1,23 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "CloudFormation template for EventBridge Ruleairline_stepfunctiontrigger",
+  "Resources": {
+    "Ruled0c01579": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Name": "airline_stepfunctiontrigger",
+        "EventPattern": "{\"source\":[\"aws.s3\"],\"detail-type\":[\"AWS API Call via CloudTrail\"],\"detail\":{\"eventSource\":[\"s3.amazonaws.com\"],\"eventName\":[\"PutObject\",\"CompleteMultipartUpload\"],\"requestParameters\":{\"bucketName\":[\"airline-data1\"],\"key\":[{\"suffix\":\"/flights.csv\"}]}}}",
+        "State": "ENABLED",
+        "EventBusName": "default",
+        "Targets": [{
+          "Id": "Iddd35ebb5-5004-41f2-b8b8-119cec3f18a3",
+          "Arn": {
+            "Fn::Sub": "arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:stateMachine:Airline_ingestion_stepfunction"
+          },
+          "RoleArn": "arn:aws:iam::209479286927:role/service-role/Amazon_EventBridge_Invoke_Step_Functions_1979924456"
+        }]
+      }
+    }
+  },
+  "Parameters": {}
+}
